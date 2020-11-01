@@ -1,11 +1,11 @@
 // ==UserScript==
 // @author      Eccenux
-// @name        IITC plugin: Nux termplate
-// @id          iitc-plugin--nux-termplate
+// @name        IITC plugin: FS puzzle helper
+// @id          iitc-plugin-fs-puzzle-helper@eccenux
 // @category    Misc
 // @namespace   pl.enux.iitc
 // @version     0.0.1
-// @description [0.0.1] Nux template
+// @description [0.0.1] FS puzzle helper
 // @match       https://*.ingress.com/intel*
 // @match       http://*.ingress.com/intel*
 // @match       https://*.ingress.com/mission/*
@@ -15,29 +15,104 @@
 // @grant       none
 // ==/UserScript==
 
+const containerId = 'fsPuzzleHelper-container';
+
+const portalHtml = `
+	<div id="${containerId}" style="
+		display: grid;
+		grid-template-columns: max-content auto min-content;
+		grid-gap: .5em;
+		padding: .5em 1em 0
+	">
+		<a class="copy" style="
+			display: inline-block;
+			vertical-align: middle;
+			line-height: 24px;
+		">FS puzzle 📋</a>
+		<input class="data" type="text" />
+	</div>
+`;
+
 /**
  * Main plugin class.
  */
+// eslint-disable-next-line no-unused-vars
 class MyPlugin {
 	constructor (codeName) {
 		this.codeName = codeName;
+		this.portalHtml = portalHtml;
 	}
 
 	setup() {
 		console.log('MyPlugin setup', this.codeName);
+		window.addHook('portalDetailsUpdated', () => {
+			this.onPortalDetailsUpdated();
+		});	
 	}
+	
+	/**
+	 * When portal is loaded.
+	 * 
+	 * Note. Portal details element is re-created when loading portals.
+	 */
+	onPortalDetailsUpdated () {
+		$('#portaldetails > .imgpreview').after(this.portalHtml);
+		let container = document.getElementById(containerId);
+		let dataField = container.querySelector('.data');
+		let copyButton = container.querySelector('.copy');
+	
+		let nickname = window.PLAYER.nickname;
+		let title = document.querySelector('#portaldetails .title')?.textContent;
+		let url = document.querySelector('#portaldetails .linkdetails a')?.href;
+		dataField.value = `${title}\t${nickname}\t${url}`;
+
+		copyButton.onclick = () => {
+			//this.copyText(dataField.value);
+			this.copyTextField(dataField);
+		};
+	}
+
+	/**
+	 * Copy text field contents.
+	 * @param {Element|String} source Element or selector.
+	 */
+	copyTextField(source) {
+		if (typeof source === 'string') {
+			source = document.querySelector(source);
+		}
+		source.select();
+		document.execCommand("copy");
+	}
+
+	/**
+	 * Copy using clipboard API.
+	 * 
+	 * Don't seem to be working on Firefox 😢... Is behind a flag.
+	 * 
+	 * @param {String} text 
+	 */
+	copyText(text) {
+		let data = [new ClipboardItem({ "text/plain": text })];
+		navigator.clipboard.write(data).then(function() {
+			console.log('text copied');
+		}, function() {
+			console.warn('failed to copy');
+		});
+	}
+    
 }
+
 /* eslint-disable no-undef */
 
-// WARNING!!! Change `examplePluginCodeName` to a unique code name of the plugin.
+// WARNING!!! Change `fsPuzzleHelper` to a unique code name of the plugin.
 
-let myPlugin = new MyPlugin('examplePluginCodeName');
+let myPlugin = new MyPlugin('fsPuzzleHelper');
 
 // ensure plugin framework is there, even if iitc is not yet loaded
 if(typeof window.plugin !== 'function') window.plugin = function() {};
 
 //use own namespace for plugin
-window.plugin.examplePluginCodeName = myPlugin;
+window.plugin.fsPuzzleHelper = myPlugin;
 
 //////////////////////////////////////////////////////////////////////
 //WRAPPER START //////////////////////////////////////////////////////
@@ -46,7 +121,7 @@ window.plugin.examplePluginCodeName = myPlugin;
  * IITC plugin wrapper.
  * 
  * Note! The `wrapper` is injected directly to the Ingress Intel web page.
- * That is why you need to use `window.plugin.examplePluginCodeName` at least for hooks setup.
+ * That is why you need to use `window.plugin.fsPuzzleHelper` at least for hooks setup.
  */
 function wrapper(plugin_info) {
 
@@ -59,8 +134,8 @@ function wrapper(plugin_info) {
 	 * See notes for the wrapper!
 	 */
 	function setup() {
-		console.log('examplePluginCodeName - init')
-		window.plugin.examplePluginCodeName.setup();
+		console.log('fsPuzzleHelper - init')
+		window.plugin.fsPuzzleHelper.setup();
 	}
 
 	//PLUGIN END /////////////////////////////////////////////////////////

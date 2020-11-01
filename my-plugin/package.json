@@ -1,15 +1,15 @@
 {
-	"name": "iitc-plugin--nux-termplate",
+	"name": "iitc-plugin-fs-puzzle-helper",
 	"version": "0.0.1",
-	"description": "[0.0.1] Nux template",
+	"description": "[0.0.1] FS puzzle helper",
 	"author": "Eccenux",
 	"license": "MIT",
 	"main": "index.js",
 	"monkeyscript": {
 		"meta": {
-			"name": "IITC plugin: Nux termplate",
+			"name": "IITC plugin: FS puzzle helper",
 			"category": "Misc",
-			"id": "iitc-plugin--nux-termplate",
+			"id": "iitc-plugin-fs-puzzle-helper@eccenux",
 			"namespace": "pl.enux.iitc",
 			"grant": ["none"],
 			"match": [
