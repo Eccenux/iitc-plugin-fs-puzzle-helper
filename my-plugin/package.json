@@ -1,7 +1,7 @@
 {
 	"name": "iitc-plugin-fs-puzzle-helper",
-	"version": "0.0.1",
-	"description": "[0.0.1] FS puzzle helper",
+	"version": "0.1.0",
+	"description": "[0.1.0] FS puzzle helper",
 	"author": "Eccenux",
 	"license": "MIT",
 	"main": "index.js",
@@ -11,7 +11,9 @@
 			"category": "Misc",
 			"id": "iitc-plugin-fs-puzzle-helper@eccenux",
 			"namespace": "pl.enux.iitc",
-			"grant": ["none"],
+			"grant": [
+				"none"
+			],
 			"match": [
 				"https://*.ingress.com/intel*",
 				"http://*.ingress.com/intel*",

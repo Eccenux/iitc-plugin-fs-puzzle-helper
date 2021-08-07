@@ -4,8 +4,8 @@
 // @id          iitc-plugin-fs-puzzle-helper@eccenux
 // @category    Misc
 // @namespace   pl.enux.iitc
-// @version     0.0.1
-// @description [0.0.1] FS puzzle helper
+// @version     0.1.0
+// @description [0.1.0] FS puzzle helper
 // @match       https://*.ingress.com/intel*
 // @match       http://*.ingress.com/intel*
 // @match       https://*.ingress.com/mission/*
@@ -61,8 +61,11 @@ class MyPlugin {
 		let dataField = container.querySelector('.data');
 		let copyButton = container.querySelector('.copy');
 	
+		let guid = window.selectedPortal;
+		let details = portalDetail.get(guid);
+
 		let nickname = window.PLAYER.nickname;
-		let title = document.querySelector('#portaldetails .title')?.textContent;
+		let title = details.title;
 		let url = document.querySelector('#portaldetails .linkdetails a')?.href;
 		dataField.value = `${title}\t${nickname}\t${url}`;
 
