@@ -4,8 +4,10 @@
 // @id          iitc-plugin-fs-puzzle-helper@eccenux
 // @category    Misc
 // @namespace   pl.enux.iitc
-// @version     0.1.0
-// @description [0.1.0] FS puzzle helper
+// @version     1.0.0
+// @description [1.0.0] FS puzzle helper
+// @updateURL   https://github.com/Eccenux/iitc-plugin-fs-puzzle-helper/raw/master/my-plugin/dist/script.meta.js
+// @downloadURL https://github.com/Eccenux/iitc-plugin-fs-puzzle-helper/raw/master/my-plugin/dist/script.user.js
 // @match       https://*.ingress.com/intel*
 // @match       http://*.ingress.com/intel*
 // @match       https://*.ingress.com/mission/*

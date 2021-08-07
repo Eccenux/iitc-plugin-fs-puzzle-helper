@@ -4,6 +4,8 @@ var msProject = ms.createProject("package.json");
 var gulp = require('gulp');
 var gulpless = require('gulp-less');
 var concat = require('gulp-concat');
+var source = require('vinyl-source-stream');
+var replace = require('gulp-replace');
 
 /**
  * LESS compile/merge task.
@@ -24,15 +26,25 @@ function lessTask(cb) {
  * @param {Function} cb Some callback.
  */
 function buildTask(cb) {
-     
+	// user.js
 	gulp.src([
 		'src/**/!(index)*.js',	// all .js files EXCEPT index
 		'src/index.js',		// index at the end
 	])
 		.pipe(concat("script.user.js"))
-		.pipe(msProject()) // append Tampermonkey header
-		.pipe(gulp.dest("dist/"));
-    
+		.pipe(msProject()) // add monkeyscript header
+		.pipe(gulp.dest("dist/"))
+	;
+
+	// meta.js
+	var stream = source('script.meta.js');
+	stream.end('');
+	stream
+		.pipe(msProject()) // add monkeyscript header
+		.pipe(replace(/\/\/\s+@(update|download)URL.+[\r\n]*/g, ''))
+		.pipe(gulp.dest("dist/"))
+	;
+		
 	cb();
 }
 
